@@ -45,13 +45,16 @@ func GenerateOtpAuth(issuer, accountName string, host Host) (*OtpAuth, error) {
 
 // GenerateOtpAuthWithOption generates an otpAuth by passing issuer, account name and option
 func GenerateOtpAuthWithOption(opt *Option) (*OtpAuth, error) {
-	secretBytes := make([]byte, opt.secretSize)
-	_, err := opt.rand.Read(secretBytes)
-	if err != nil {
-		return nil, err
+	secret := opt.Secret()
+	if len(secret) == 0 {
+		secretBytes := make([]byte, opt.secretSize)
+		_, err := opt.rand.Read(secretBytes)
+		if err != nil {
+			return nil, err
+		}
+		secret = base32NoPadding.EncodeToString(secretBytes)
 	}
 
-	secret := base32NoPadding.EncodeToString(secretBytes)
 	u := newURL(opt, secret)
 
 	return &OtpAuth{

@@ -146,6 +146,8 @@ type Option struct {
 	// secretSize is a size of the generated Secret
 	// The default value is 20 bytes
 	secretSize uint
+	// secret is a secret that has already been generated
+	secret string
 	// scheme is an url scheme
 	// The default value is `otpauth`
 	scheme string
@@ -188,6 +190,25 @@ func (opt *Option) SetSecretSize(secretSize uint) error {
 	}
 
 	opt.secretSize = secretSize
+	return nil
+}
+
+// Secret returns a secret that option has
+func (opt *Option) Secret() string {
+	if opt == nil {
+		return ""
+	}
+
+	return opt.secret
+}
+
+// SetSecret sets a secret that has already been generated
+func (opt *Option) SetSecret(secret string) error {
+	if opt == nil {
+		return ErrOptionIsNil
+	}
+
+	opt.secret = secret
 	return nil
 }
 

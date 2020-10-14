@@ -314,6 +314,56 @@ func TestOption_SetSecretSize_InvalidSecretSize(t *testing.T) {
 	}
 }
 
+func TestOption_Secret(t *testing.T) {
+	want := "JXVF3ZJE2U52WP3B77D77VQJ3J3VYDUZ"
+
+	secret := "JXVF3ZJE2U52WP3B77D77VQJ3J3VYDUZ"
+	o := &otpauth.Option{}
+	_ = o.SetSecret(secret)
+	got := o.Secret()
+	if got != want {
+		t.Errorf("Secret()=%s; want %s, receiver %#v", got, want, o)
+	}
+}
+
+func TestOption_Secret_Empty(t *testing.T) {
+	want := ""
+
+	var o *otpauth.Option
+	got := o.Secret()
+	if got != want {
+		t.Errorf("Secret()=%s; want %s, receiver %#v", got, want, o)
+	}
+}
+
+func TestOption_SetSecret(t *testing.T) {
+	want := "JXVF3ZJE2U52WP3B77D77VQJ3J3VYDUZ"
+
+	secret := "JXVF3ZJE2U52WP3B77D77VQJ3J3VYDUZ"
+	o := &otpauth.Option{}
+	err := o.SetSecret(secret)
+	if err != nil {
+		t.Fatalf("SetSecret(%s)=%#v; want nil, receiver %#v", secret, err, o)
+	}
+	if got := o.Secret(); got != want {
+		t.Errorf("secret: got %s, want %s, receiver %#v", got, want, o)
+	}
+}
+
+func TestOption_SetSecret_ErrOptionIsNil(t *testing.T) {
+	wantErr := otpauth.ErrOptionIsNil
+
+	secret := "JXVF3ZJE2U52WP3B77D77VQJ3J3VYDUZ"
+	var o *otpauth.Option
+	err := o.SetSecret(secret)
+	if err == nil {
+		t.Fatalf("SetSecret(%s)=nil; want %v, receiver nil", secret, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("SetSecret(%s)=%#v; want %v, receiver nil", secret, err, wantErr)
+	}
+}
+
 func TestOption_SetDigits(t *testing.T) {
 	want := otpauth.DigitsSix
 
