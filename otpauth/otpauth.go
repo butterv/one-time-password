@@ -33,9 +33,9 @@ func (oa *OtpAuth) Secret() string {
 	return oa.secret
 }
 
-// GenerateOtpAuth generates an otpAuth by passing issuer and account name
-func GenerateOtpAuth(issuer, accountName string) (*OtpAuth, error) {
-	opt, err := NewOption(issuer, accountName)
+// GenerateOtpAuth generates an otpAuth by passing issuer, account name and host
+func GenerateOtpAuth(issuer, accountName string, host Host) (*OtpAuth, error) {
+	opt, err := NewOption(issuer, accountName, host)
 	if err != nil {
 		return nil, err
 	}

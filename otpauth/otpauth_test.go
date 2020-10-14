@@ -60,7 +60,8 @@ func TestNewURL(t *testing.T) {
 
 	issuer := "TEST_ISSUER"
 	accountName := "TEST_ACCOUNT_NAME"
-	o, _ := otpauth.NewOption(issuer, accountName)
+	host := otpauth.HostTOTP
+	o, _ := otpauth.NewOption(issuer, accountName, host)
 
 	secret := "TEST_SECRET"
 	got := otpauth.ExportNewURL(o, secret)
@@ -79,7 +80,8 @@ func TestNewURL_WithIconURL(t *testing.T) {
 
 	issuer := "TEST_ISSUER"
 	accountName := "TEST_ACCOUNT_NAME"
-	o, _ := otpauth.NewOption(issuer, accountName)
+	host := otpauth.HostTOTP
+	o, _ := otpauth.NewOption(issuer, accountName, host)
 
 	iconURL := "TEST_ICON_URL"
 	_ = o.SetIconURL(iconURL)

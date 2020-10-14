@@ -314,48 +314,6 @@ func TestOption_SetSecretSize_InvalidSecretSize(t *testing.T) {
 	}
 }
 
-func TestOption_SetHost(t *testing.T) {
-	want := otpauth.Host(0)
-
-	host := otpauth.Host(0)
-	o := &otpauth.Option{}
-	err := o.SetHost(host)
-	if err != nil {
-		t.Fatalf("SetHost(%d)=%#v; want nil, receiver %#v", host, err, o)
-	}
-	if got := o.Host(); got != want {
-		t.Errorf("host: got %d, want %d, receiver %#v", got, want, o)
-	}
-}
-
-func TestOption_SetHost_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
-
-	host := otpauth.Host(0)
-	var o *otpauth.Option
-	err := o.SetHost(host)
-	if err == nil {
-		t.Fatalf("SetHost(%d)=nil; want %v, receiver nil", host, wantErr)
-	}
-	if err.Error() != wantErr.Error() {
-		t.Errorf("SetHost(%d)=%#v; want %v, receiver nil", host, err, wantErr)
-	}
-}
-
-func TestOption_SetHost_InvalidHost(t *testing.T) {
-	wantErr := errors.New("invalid host. please pass 0 or 1")
-
-	host := otpauth.Host(2)
-	o := &otpauth.Option{}
-	err := o.SetHost(host)
-	if err == nil {
-		t.Fatalf("SetHost(%d)=nil; want %v, receiver nil", host, wantErr)
-	}
-	if err.Error() != wantErr.Error() {
-		t.Errorf("SetHost(%d)=%#v; want %v, receiver nil", host, err, wantErr)
-	}
-}
-
 func TestOption_SetDigits(t *testing.T) {
 	want := otpauth.DigitsSix
 
@@ -473,12 +431,13 @@ func TestNewOption(t *testing.T) {
 
 	issuer := "TEST_ISSUER"
 	accountName := "TEST_ACCOUNT_NAME"
-	got, err := otpauth.NewOption(issuer, accountName)
+	host := otpauth.HostTOTP
+	got, err := otpauth.NewOption(issuer, accountName, host)
 	if err != nil {
-		t.Fatalf("NewOption(%s, %s)=_, %#v; want nil", issuer, accountName, err)
+		t.Fatalf("NewOption(%s, %s, %d)=_, %#v; want nil", issuer, accountName, host, err)
 	}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("NewOption(%s, %s)=%#v, _; want %v", issuer, accountName, got, want)
+		t.Errorf("NewOption(%s, %s, %d)=%#v, _; want %v", issuer, accountName, host, got, want)
 	}
 }
 
@@ -487,7 +446,8 @@ func TestNewOption_IssuerIsEmpty(t *testing.T) {
 
 	issuer := ""
 	accountName := "TEST_ACCOUNT_NAME"
-	_, err := otpauth.NewOption(issuer, accountName)
+	host := otpauth.HostTOTP
+	_, err := otpauth.NewOption(issuer, accountName, host)
 	if err == nil {
 		t.Fatalf("NewOption(%s, %s)=_, nil; want %v", issuer, accountName, wantErr)
 	}
@@ -501,11 +461,27 @@ func TestNewOption_AccountNameIsEmpty(t *testing.T) {
 
 	issuer := "TEST_ISSUER"
 	accountName := ""
-	_, err := otpauth.NewOption(issuer, accountName)
+	host := otpauth.HostTOTP
+	_, err := otpauth.NewOption(issuer, accountName, host)
 	if err == nil {
-		t.Fatalf("NewOption(%s, %s)=_, nil; want %v", issuer, accountName, wantErr)
+		t.Fatalf("NewOption(%s, %s, %d)=_, nil; want %v", issuer, accountName, host, wantErr)
 	}
 	if err.Error() != wantErr.Error() {
-		t.Errorf("NewOption(%s, %s)=_, %#v; want %v", issuer, accountName, err, wantErr)
+		t.Errorf("NewOption(%s, %s, %d)=_, %#v; want %v", issuer, accountName, host, err, wantErr)
+	}
+}
+
+func TestNewOption_InvalidHost(t *testing.T) {
+	wantErr := errors.New("invalid host. please pass 0 or 1")
+
+	issuer := "TEST_ISSUER"
+	accountName := "TEST_ACCOUNT_NAME"
+	host := otpauth.Host(2)
+	_, err := otpauth.NewOption(issuer, accountName, host)
+	if err == nil {
+		t.Fatalf("NewOption(%s, %s, %d)=_, nil; want %v", issuer, accountName, host, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("NewOption(%s, %s, %d)=_, %#v; want %v", issuer, accountName, host, err, wantErr)
 	}
 }

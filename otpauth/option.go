@@ -30,21 +30,21 @@ var ErrInvalidDigitsLength = errors.New("digits length unexpected")
 type Host int
 
 const (
-	// hostHOTP is a host of HMAC-based One Time Password
-	hostHOTP Host = iota
-	// hostTOTP is a host of Time-based One Time Password
-	hostTOTP
+	// HostHOTP is a host of HMAC-based One Time Password
+	HostHOTP Host = iota
+	// HostTOTP is a host of Time-based One Time Password
+	HostTOTP
 )
 
 func (h Host) enabled() bool {
-	return h == hostHOTP || h == hostTOTP
+	return h == HostHOTP || h == HostTOTP
 }
 
 func (h Host) name() string {
 	switch h {
-	case hostHOTP:
+	case HostHOTP:
 		return "hotp"
-	case hostTOTP:
+	case HostTOTP:
 		return "totp"
 	}
 
@@ -191,19 +191,6 @@ func (opt *Option) SetSecretSize(secretSize uint) error {
 	return nil
 }
 
-// SetHost sets a host
-func (opt *Option) SetHost(h Host) error {
-	if opt == nil {
-		return ErrOptionIsNil
-	}
-	if !h.enabled() {
-		return fmt.Errorf("invalid host. please pass %d or %d", hostHOTP, hostTOTP)
-	}
-
-	opt.host = h
-	return nil
-}
-
 // SetDigits sets the number of digits
 func (opt *Option) SetDigits(d Digits) error {
 	if opt == nil {
@@ -240,13 +227,16 @@ func (opt *Option) SetIconURL(url string) error {
 	return nil
 }
 
-// NewOption generates an option by passing issuer and account name
-func NewOption(issuer, accountName string) (*Option, error) {
+// NewOption generates an option by passing issuer, account name and host
+func NewOption(issuer, accountName string, host Host) (*Option, error) {
 	if issuer == "" {
 		return nil, errors.New("issuer is empty")
 	}
 	if accountName == "" {
 		return nil, errors.New("accountName is empty")
+	}
+	if !host.enabled() {
+		return nil, fmt.Errorf("invalid host. please pass %d or %d", HostHOTP, HostTOTP)
 	}
 
 	return &Option{
@@ -255,7 +245,7 @@ func NewOption(issuer, accountName string) (*Option, error) {
 		period:      DefaultPeriod,
 		secretSize:  defaultSecretSize,
 		scheme:      defaultScheme,
-		host:        hostTOTP,
+		host:        host,
 		digits:      DigitsSix,
 		algorithm:   AlgorithmSHA1,
 		rand:        crand.Reader,
