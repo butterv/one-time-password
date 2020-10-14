@@ -4,6 +4,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/istsh/one-time-password/otpauth"
+
 	"github.com/istsh/one-time-password/totp"
 )
 
@@ -36,11 +38,11 @@ func TestValidate_False(t *testing.T) {
 }
 
 func TestValidateWithOption_True(t *testing.T) {
-	passcode := "662024"
+	passcode := "95662024"
 	ti := time.Date(2020, 10, 1, 0, 0, 0, 0, time.UTC)
 
 	o := totp.NewOption()
-	_ = o.SetSkew(5)
+	_ = o.SetDigits(otpauth.DigitsEight)
 
 	got, err := totp.ValidateWithOption(passcode, secret, ti, o)
 	if err != nil {
@@ -52,11 +54,11 @@ func TestValidateWithOption_True(t *testing.T) {
 }
 
 func TestValidateWithOption_False(t *testing.T) {
-	passcode := "662023"
+	passcode := "95662023"
 	ti := time.Date(2020, 10, 1, 0, 0, 0, 0, time.UTC)
 
 	o := totp.NewOption()
-	_ = o.SetSkew(5)
+	_ = o.SetDigits(otpauth.DigitsEight)
 
 	got, err := totp.ValidateWithOption(passcode, secret, ti, o)
 	if err != nil {

@@ -12,9 +12,6 @@ type Option struct {
 	// period is the seconds that a Time-based One Time Password hash is valid
 	// The default value is 30 seconds
 	period uint
-	// skew is the allowed seconds before or after the current time
-	// The default value is 0
-	skew uint
 	// digits is the number of digits
 	// The default value is 6
 	digits otpauth.Digits
@@ -33,16 +30,6 @@ func (opt *Option) SetPeriod(period uint) error {
 	}
 
 	opt.period = period
-	return nil
-}
-
-// SetSkew sets the allowed seconds before or after the current time
-func (opt *Option) SetSkew(skew uint) error {
-	if opt == nil {
-		return otpauth.ErrOptionIsNil
-	}
-
-	opt.skew = skew
 	return nil
 }
 
