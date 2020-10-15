@@ -7,6 +7,9 @@ import (
 	"github.com/istsh/one-time-password/otpauth"
 )
 
+// ErrTOTPOptionIsNil is an error when the totp option is nil
+var ErrTOTPOptionIsNil = errors.New("totp option is nil")
+
 // Option is used when operates the Time-based One Time Password
 type Option struct {
 	// period is the seconds that a Time-based One Time Password hash is valid
@@ -23,7 +26,7 @@ type Option struct {
 // SetPeriod sets a period that Time-based One Time Password hash is valid
 func (opt *Option) SetPeriod(period uint) error {
 	if opt == nil {
-		return otpauth.ErrOptionIsNil
+		return ErrTOTPOptionIsNil
 	}
 	if period == 0 {
 		return errors.New("invalid period. please pass greater than 0")
@@ -36,7 +39,7 @@ func (opt *Option) SetPeriod(period uint) error {
 // SetDigits sets the number of digits
 func (opt *Option) SetDigits(d otpauth.Digits) error {
 	if opt == nil {
-		return otpauth.ErrOptionIsNil
+		return ErrTOTPOptionIsNil
 	}
 	if !d.Enabled() {
 		return fmt.Errorf("invalid digits. please pass %d or %d", otpauth.DigitsSix, otpauth.DigitsEight)
@@ -49,7 +52,7 @@ func (opt *Option) SetDigits(d otpauth.Digits) error {
 // SetAlgorithm sets the hash algorithm
 func (opt *Option) SetAlgorithm(a otpauth.Algorithm) error {
 	if opt == nil {
-		return otpauth.ErrOptionIsNil
+		return ErrTOTPOptionIsNil
 	}
 	if !a.Enabled() {
 		return fmt.Errorf("invalid algorithm. please pass any of %d to %d", otpauth.AlgorithmSHA1, otpauth.AlgorithmMD5)

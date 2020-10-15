@@ -1,10 +1,14 @@
 package hotp
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/istsh/one-time-password/otpauth"
 )
+
+// ErrHOTPOptionIsNil is an error when the hotp option is nil
+var ErrHOTPOptionIsNil = errors.New("hotp option is nil")
 
 // Option is used when operates the HMAC-based One Time Password
 type Option struct {
@@ -19,7 +23,7 @@ type Option struct {
 // SetDigits sets the number of digits
 func (opt *Option) SetDigits(d otpauth.Digits) error {
 	if opt == nil {
-		return otpauth.ErrOptionIsNil
+		return ErrHOTPOptionIsNil
 	}
 	if !d.Enabled() {
 		return fmt.Errorf("invalid digits. please pass %d or %d", otpauth.DigitsSix, otpauth.DigitsEight)
@@ -32,7 +36,7 @@ func (opt *Option) SetDigits(d otpauth.Digits) error {
 // SetAlgorithm sets the hash algorithm
 func (opt *Option) SetAlgorithm(a otpauth.Algorithm) error {
 	if opt == nil {
-		return otpauth.ErrOptionIsNil
+		return ErrHOTPOptionIsNil
 	}
 	if !a.Enabled() {
 		return fmt.Errorf("invalid algorithm. please pass any of %d to %d", otpauth.AlgorithmSHA1, otpauth.AlgorithmMD5)

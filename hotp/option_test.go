@@ -24,7 +24,7 @@ func TestOption_SetDigits(t *testing.T) {
 }
 
 func TestOption_SetDigits_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := hotp.ErrHOTPOptionIsNil
 
 	digits := otpauth.DigitsSix
 	var o *hotp.Option
@@ -66,7 +66,7 @@ func TestOption_SetAlgorithm(t *testing.T) {
 }
 
 func TestOption_SetAlgorithm_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := hotp.ErrHOTPOptionIsNil
 
 	a := otpauth.AlgorithmSHA1
 	var o *hotp.Option

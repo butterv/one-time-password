@@ -28,10 +28,8 @@ func main() {
 		panic(err)
 	}
 
-	var otp string
-	var ok bool
+	o := hotp.NewOption()
 	if *option {
-		o := hotp.NewOption()
 		if *digits != 0 {
 			err = o.SetDigits(otpauth.Digits(*digits))
 			if err != nil {
@@ -44,26 +42,16 @@ func main() {
 				panic(err)
 			}
 		}
+	}
 
-		otp, err = hotp.GeneratePasscodeWithOption(oa.Secret(), *counter, o)
-		if err != nil {
-			panic(err)
-		}
+	otp, err := hotp.GeneratePasscodeWithOption(oa.Secret(), *counter, o)
+	if err != nil {
+		panic(err)
+	}
 
-		ok, err = hotp.ValidateWithOption(otp, oa.Secret(), *counter, o)
-		if err != nil {
-			panic(err)
-		}
-	} else {
-		otp, err = hotp.GeneratePasscode(oa.Secret(), *counter)
-		if err != nil {
-			panic(err)
-		}
-
-		ok, err = hotp.Validate(otp, oa.Secret(), *counter)
-		if err != nil {
-			panic(err)
-		}
+	ok, err := hotp.ValidateWithOption(otp, oa.Secret(), *counter, o)
+	if err != nil {
+		panic(err)
 	}
 
 	fmt.Printf("url:         %s\n", oa.URL())

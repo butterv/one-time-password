@@ -20,8 +20,8 @@ const (
 	defaultSecretSize = 20
 )
 
-// ErrOptionIsNil is an error when the option is nil
-var ErrOptionIsNil = errors.New("option is nil")
+// ErrOtpAuthOptionIsNil is an error when the otpauth option is nil
+var ErrOtpAuthOptionIsNil = errors.New("otpauth option is nil")
 
 // ErrInvalidDigitsLength is an error when the digits length unexpected
 var ErrInvalidDigitsLength = errors.New("digits length unexpected")
@@ -170,7 +170,7 @@ type Option struct {
 // SetPeriod sets a period that Time-based One Time Password hash is valid
 func (opt *Option) SetPeriod(period uint) error {
 	if opt == nil {
-		return ErrOptionIsNil
+		return ErrOtpAuthOptionIsNil
 	}
 	if period == 0 {
 		return errors.New("invalid period. please pass greater than 0")
@@ -183,7 +183,7 @@ func (opt *Option) SetPeriod(period uint) error {
 // SetSecretSize sets a secretSize of the generated Secret
 func (opt *Option) SetSecretSize(secretSize uint) error {
 	if opt == nil {
-		return ErrOptionIsNil
+		return ErrOtpAuthOptionIsNil
 	}
 	if secretSize == 0 {
 		return errors.New("invalid secretSize. please pass greater than 0")
@@ -205,7 +205,7 @@ func (opt *Option) Secret() string {
 // SetSecret sets a secret that has already been generated
 func (opt *Option) SetSecret(secret string) error {
 	if opt == nil {
-		return ErrOptionIsNil
+		return ErrOtpAuthOptionIsNil
 	}
 
 	opt.secret = secret
@@ -215,7 +215,7 @@ func (opt *Option) SetSecret(secret string) error {
 // SetDigits sets the number of digits
 func (opt *Option) SetDigits(d Digits) error {
 	if opt == nil {
-		return ErrOptionIsNil
+		return ErrOtpAuthOptionIsNil
 	}
 	if !d.Enabled() {
 		return fmt.Errorf("invalid digits. please pass %d or %d", DigitsSix, DigitsEight)
@@ -228,7 +228,7 @@ func (opt *Option) SetDigits(d Digits) error {
 // SetAlgorithm sets the hash algorithm
 func (opt *Option) SetAlgorithm(a Algorithm) error {
 	if opt == nil {
-		return ErrOptionIsNil
+		return ErrOtpAuthOptionIsNil
 	}
 	if !a.Enabled() {
 		return fmt.Errorf("invalid algorithm. please pass any of %d to %d", AlgorithmSHA1, AlgorithmMD5)
@@ -241,7 +241,7 @@ func (opt *Option) SetAlgorithm(a Algorithm) error {
 // SetIconURL sets a url of icon
 func (opt *Option) SetIconURL(url string) error {
 	if opt == nil {
-		return ErrOptionIsNil
+		return ErrOtpAuthOptionIsNil
 	}
 
 	opt.iconURL = url

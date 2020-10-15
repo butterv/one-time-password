@@ -35,7 +35,6 @@ func main() {
 
 	o := totp.NewOption()
 	if *option {
-		o := totp.NewOption()
 		if *digits != 0 {
 			err = o.SetDigits(otpauth.Digits(*digits))
 			if err != nil {

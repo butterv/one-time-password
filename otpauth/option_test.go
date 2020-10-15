@@ -245,7 +245,7 @@ func TestOption_SetPeriod(t *testing.T) {
 }
 
 func TestOption_SetPeriod_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := otpauth.ErrOtpAuthOptionIsNil
 
 	period := uint(30)
 	var o *otpauth.Option
@@ -287,7 +287,7 @@ func TestOption_SetSecretSize(t *testing.T) {
 }
 
 func TestOption_SetSecretSize_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := otpauth.ErrOtpAuthOptionIsNil
 
 	secretSize := uint(20)
 	var o *otpauth.Option
@@ -351,7 +351,7 @@ func TestOption_SetSecret(t *testing.T) {
 }
 
 func TestOption_SetSecret_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := otpauth.ErrOtpAuthOptionIsNil
 
 	secret := "JXVF3ZJE2U52WP3B77D77VQJ3J3VYDUZ"
 	var o *otpauth.Option
@@ -379,7 +379,7 @@ func TestOption_SetDigits(t *testing.T) {
 }
 
 func TestOption_SetDigits_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := otpauth.ErrOtpAuthOptionIsNil
 
 	digits := otpauth.DigitsSix
 	var o *otpauth.Option
@@ -421,7 +421,7 @@ func TestOption_SetAlgorithm(t *testing.T) {
 }
 
 func TestOption_SetAlgorithm_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := otpauth.ErrOtpAuthOptionIsNil
 
 	a := otpauth.AlgorithmSHA1
 	var o *otpauth.Option
@@ -463,7 +463,7 @@ func TestOption_SetIconURL(t *testing.T) {
 }
 
 func TestOption_SetIconURL_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := otpauth.ErrOtpAuthOptionIsNil
 
 	url := "TEST_ICON_URL"
 	var o *otpauth.Option

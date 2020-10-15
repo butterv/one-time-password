@@ -43,7 +43,7 @@ func GenerateOtpAuth(issuer, accountName string, host Host) (*OtpAuth, error) {
 	return GenerateOtpAuthWithOption(opt)
 }
 
-// GenerateOtpAuthWithOption generates an otpAuth by passing issuer, account name and option
+// GenerateOtpAuthWithOption generates an otpAuth by passing option
 func GenerateOtpAuthWithOption(opt *Option) (*OtpAuth, error) {
 	secret := opt.Secret()
 	if len(secret) == 0 {

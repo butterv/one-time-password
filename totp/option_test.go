@@ -24,7 +24,7 @@ func TestOption_SetPeriod(t *testing.T) {
 }
 
 func TestOption_SetPeriod_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := totp.ErrTOTPOptionIsNil
 
 	period := uint(30)
 	var o *totp.Option
@@ -66,7 +66,7 @@ func TestOption_SetDigits(t *testing.T) {
 }
 
 func TestOption_SetDigits_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := totp.ErrTOTPOptionIsNil
 
 	digits := otpauth.DigitsSix
 	var o *totp.Option
@@ -108,7 +108,7 @@ func TestOption_SetAlgorithm(t *testing.T) {
 }
 
 func TestOption_SetAlgorithm_ErrOptionIsNil(t *testing.T) {
-	wantErr := otpauth.ErrOptionIsNil
+	wantErr := totp.ErrTOTPOptionIsNil
 
 	a := otpauth.AlgorithmSHA1
 	var o *totp.Option
