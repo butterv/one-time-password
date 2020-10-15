@@ -2,6 +2,7 @@ package otpauth
 
 import (
 	"encoding/base32"
+	"errors"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -35,16 +36,21 @@ func (oa *OtpAuth) Secret() string {
 
 // GenerateOtpAuth generates an otpAuth by passing issuer, account name and host
 func GenerateOtpAuth(issuer, accountName string, host Host) (*OtpAuth, error) {
-	opt, err := NewOption(issuer, accountName, host)
+	opt, err := NewOption()
 	if err != nil {
 		return nil, err
 	}
 
-	return GenerateOtpAuthWithOption(opt)
+	return GenerateOtpAuthWithOption(issuer, accountName, host, opt)
 }
 
 // GenerateOtpAuthWithOption generates an otpAuth by passing option
-func GenerateOtpAuthWithOption(opt *Option) (*OtpAuth, error) {
+func GenerateOtpAuthWithOption(issuer, accountName string, host Host, opt *Option) (*OtpAuth, error) {
+	err := validate(issuer, accountName, host)
+	if err != nil {
+		return nil, err
+	}
+
 	secret := opt.Secret()
 	if len(secret) == 0 {
 		secretBytes := make([]byte, opt.secretSize)
@@ -55,17 +61,8 @@ func GenerateOtpAuthWithOption(opt *Option) (*OtpAuth, error) {
 		secret = base32NoPadding.EncodeToString(secretBytes)
 	}
 
-	u := newURL(opt, secret)
-
-	return &OtpAuth{
-		url:    u.String(),
-		secret: secret,
-	}, nil
-}
-
-func newURL(opt *Option, secret string) url.URL {
 	v := url.Values{}
-	v.Set("issuer", opt.issuer)
+	v.Set("issuer", issuer)
 	v.Set("period", strconv.FormatUint(uint64(opt.period), 10))
 	v.Set("algorithm", opt.algorithm.name())
 	v.Set("digits", fmt.Sprintf("%d", opt.digits))
@@ -75,10 +72,29 @@ func newURL(opt *Option, secret string) url.URL {
 		v.Set("icon", opt.iconURL)
 	}
 
-	return url.URL{
+	u := url.URL{
 		Scheme:   opt.scheme,
-		Host:     opt.host.name(),
-		Path:     fmt.Sprintf("/%s:%s", opt.issuer, opt.accountName),
+		Host:     host.name(),
+		Path:     fmt.Sprintf("/%s:%s", issuer, accountName),
 		RawQuery: v.Encode(),
 	}
+
+	return &OtpAuth{
+		url:    u.String(),
+		secret: secret,
+	}, nil
+}
+
+func validate(issuer, accountName string, host Host) error {
+	if issuer == "" {
+		return errors.New("issuer is empty")
+	}
+	if accountName == "" {
+		return errors.New("accountName is empty")
+	}
+	if !host.enabled() {
+		return fmt.Errorf("invalid host. please pass %d or %d", HostHOTP, HostTOTP)
+	}
+
+	return nil
 }

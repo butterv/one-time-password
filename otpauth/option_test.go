@@ -479,59 +479,11 @@ func TestOption_SetIconURL_ErrOptionIsNil(t *testing.T) {
 func TestNewOption(t *testing.T) {
 	want := otpauth.DefaultOption()
 
-	issuer := "TEST_ISSUER"
-	accountName := "TEST_ACCOUNT_NAME"
-	host := otpauth.HostTOTP
-	got, err := otpauth.NewOption(issuer, accountName, host)
+	got, err := otpauth.NewOption()
 	if err != nil {
-		t.Fatalf("NewOption(%s, %s, %d)=_, %#v; want nil", issuer, accountName, host, err)
+		t.Fatalf("NewOption()=_, %#v; want nil", err)
 	}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("NewOption(%s, %s, %d)=%#v, _; want %v", issuer, accountName, host, got, want)
-	}
-}
-
-func TestNewOption_IssuerIsEmpty(t *testing.T) {
-	wantErr := errors.New("issuer is empty")
-
-	issuer := ""
-	accountName := "TEST_ACCOUNT_NAME"
-	host := otpauth.HostTOTP
-	_, err := otpauth.NewOption(issuer, accountName, host)
-	if err == nil {
-		t.Fatalf("NewOption(%s, %s)=_, nil; want %v", issuer, accountName, wantErr)
-	}
-	if err.Error() != wantErr.Error() {
-		t.Errorf("NewOption(%s, %s)=_, %#v; want %v", issuer, accountName, err, wantErr)
-	}
-}
-
-func TestNewOption_AccountNameIsEmpty(t *testing.T) {
-	wantErr := errors.New("accountName is empty")
-
-	issuer := "TEST_ISSUER"
-	accountName := ""
-	host := otpauth.HostTOTP
-	_, err := otpauth.NewOption(issuer, accountName, host)
-	if err == nil {
-		t.Fatalf("NewOption(%s, %s, %d)=_, nil; want %v", issuer, accountName, host, wantErr)
-	}
-	if err.Error() != wantErr.Error() {
-		t.Errorf("NewOption(%s, %s, %d)=_, %#v; want %v", issuer, accountName, host, err, wantErr)
-	}
-}
-
-func TestNewOption_InvalidHost(t *testing.T) {
-	wantErr := errors.New("invalid host. please pass 0 or 1")
-
-	issuer := "TEST_ISSUER"
-	accountName := "TEST_ACCOUNT_NAME"
-	host := otpauth.Host(2)
-	_, err := otpauth.NewOption(issuer, accountName, host)
-	if err == nil {
-		t.Fatalf("NewOption(%s, %s, %d)=_, nil; want %v", issuer, accountName, host, wantErr)
-	}
-	if err.Error() != wantErr.Error() {
-		t.Errorf("NewOption(%s, %s, %d)=_, %#v; want %v", issuer, accountName, host, err, wantErr)
+		t.Errorf("NewOption()=%#v, _; want %v", got, want)
 	}
 }

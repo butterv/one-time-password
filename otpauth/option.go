@@ -135,11 +135,11 @@ func (a Algorithm) Hash() hash.Hash {
 
 // Option is used when generates otpauth
 type Option struct {
-	// issuer is the issuing organization or company
-	issuer string
-	// accountName is the user's account name
-	// e.g. email address
-	accountName string
+	//// issuer is the issuing organization or company
+	//issuer string
+	//// accountName is the user's account name
+	//// e.g. email address
+	//accountName string
 	// period is the seconds that a Time-based One Time Password hash is valid
 	// The default value is 30 seconds
 	period uint
@@ -151,9 +151,9 @@ type Option struct {
 	// scheme is an url scheme
 	// The default value is `otpauth`
 	scheme string
-	// host is a host of One Time Password
-	// The default value is `totp`
-	host Host
+	//// host is a host of One Time Password
+	//// The default value is `totp`
+	//host Host
 	// digits is the number of digits
 	// The default value is 6
 	digits Digits
@@ -249,26 +249,13 @@ func (opt *Option) SetIconURL(url string) error {
 }
 
 // NewOption generates an option by passing issuer, account name and host
-func NewOption(issuer, accountName string, host Host) (*Option, error) {
-	if issuer == "" {
-		return nil, errors.New("issuer is empty")
-	}
-	if accountName == "" {
-		return nil, errors.New("accountName is empty")
-	}
-	if !host.enabled() {
-		return nil, fmt.Errorf("invalid host. please pass %d or %d", HostHOTP, HostTOTP)
-	}
-
+func NewOption() (*Option, error) {
 	return &Option{
-		issuer:      issuer,
-		accountName: accountName,
-		period:      DefaultPeriod,
-		secretSize:  defaultSecretSize,
-		scheme:      defaultScheme,
-		host:        host,
-		digits:      DigitsSix,
-		algorithm:   AlgorithmSHA1,
-		rand:        crand.Reader,
+		period:     DefaultPeriod,
+		secretSize: defaultSecretSize,
+		scheme:     defaultScheme,
+		digits:     DigitsSix,
+		algorithm:  AlgorithmSHA1,
+		rand:       crand.Reader,
 	}, nil
 }

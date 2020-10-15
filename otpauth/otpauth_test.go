@@ -1,11 +1,9 @@
 package otpauth_test
 
 import (
-	"net/url"
-	"reflect"
+	"errors"
+	"fmt"
 	"testing"
-
-	"github.com/google/go-cmp/cmp"
 
 	"github.com/istsh/one-time-password/otpauth"
 )
@@ -50,45 +48,47 @@ func TestOtpAuth_Secret_Empty(t *testing.T) {
 	}
 }
 
-func TestNewURL(t *testing.T) {
-	want := url.URL{
-		Scheme:   "otpauth",
-		Host:     "totp",
-		Path:     "/TEST_ISSUER:TEST_ACCOUNT_NAME",
-		RawQuery: "algorithm=SHA1&digits=6&issuer=TEST_ISSUER&period=30&secret=TEST_SECRET",
-	}
+func TestGenerateOtpAuth_IssuerIsEmpty(t *testing.T) {
+	wantErr := errors.New("issuer is empty")
 
-	issuer := "TEST_ISSUER"
+	issuer := ""
 	accountName := "TEST_ACCOUNT_NAME"
 	host := otpauth.HostTOTP
-	o, _ := otpauth.NewOption(issuer, accountName, host)
-
-	secret := "TEST_SECRET"
-	got := otpauth.ExportNewURL(o, secret)
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("ExportNewURL(%v, %s)=%#v; want %v\ndiff=%s", o, secret, got, want, cmp.Diff(got, want))
+	_, err := otpauth.GenerateOtpAuth(issuer, accountName, host)
+	if err == nil {
+		t.Fatalf("GenerateOtpAuth(%s, %s, %d)=_, nil; want %d", issuer, accountName, host, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("GenerateOtpAuth(%s, %s, %d)=_, %#v; want %d", issuer, accountName, host, err, wantErr)
 	}
 }
 
-func TestNewURL_WithIconURL(t *testing.T) {
-	want := url.URL{
-		Scheme:   "otpauth",
-		Host:     "totp",
-		Path:     "/TEST_ISSUER:TEST_ACCOUNT_NAME",
-		RawQuery: "algorithm=SHA1&digits=6&icon=TEST_ICON_URL&issuer=TEST_ISSUER&period=30&secret=TEST_SECRET",
+func TestGenerateOtpAuth_AccountNameIsEmpty(t *testing.T) {
+	wantErr := errors.New("accountName is empty")
+
+	issuer := "TEST_ISSUER"
+	accountName := ""
+	host := otpauth.HostTOTP
+	_, err := otpauth.GenerateOtpAuth(issuer, accountName, host)
+	if err == nil {
+		t.Fatalf("GenerateOtpAuth(%s, %s, %d)=_, nil; want %d", issuer, accountName, host, wantErr)
 	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("GenerateOtpAuth(%s, %s, %d)=_, %#v; want %d", issuer, accountName, host, err, wantErr)
+	}
+}
+
+func TestGenerateOtpAuth_InvalidHost(t *testing.T) {
+	wantErr := fmt.Errorf("invalid host. please pass %d or %d", otpauth.HostHOTP, otpauth.HostTOTP)
 
 	issuer := "TEST_ISSUER"
 	accountName := "TEST_ACCOUNT_NAME"
-	host := otpauth.HostTOTP
-	o, _ := otpauth.NewOption(issuer, accountName, host)
-
-	iconURL := "TEST_ICON_URL"
-	_ = o.SetIconURL(iconURL)
-
-	secret := "TEST_SECRET"
-	got := otpauth.ExportNewURL(o, secret)
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("ExportNewURL(%v, %s)=%#v; want %v\ndiff=%s", o, secret, got, want, cmp.Diff(got, want))
+	host := otpauth.Host(2)
+	_, err := otpauth.GenerateOtpAuth(issuer, accountName, host)
+	if err == nil {
+		t.Fatalf("GenerateOtpAuth(%s, %s, %d)=_, nil; want %d", issuer, accountName, host, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("GenerateOtpAuth(%s, %s, %d)=_, %#v; want %d", issuer, accountName, host, err, wantErr)
 	}
 }

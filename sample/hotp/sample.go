@@ -64,12 +64,12 @@ func main() {
 }
 
 func newOtpAuth() (oa *otpauth.OtpAuth, err error) {
-	o, err := otpauth.NewOption(*issuer, *accountName, otpauth.HostHOTP)
-	if *option {
-		if err != nil {
-			return nil, err
-		}
+	o, err := otpauth.NewOption()
+	if err != nil {
+		return nil, err
+	}
 
+	if *option {
 		if *period > 0 {
 			_ = o.SetPeriod(*period)
 		}
@@ -87,7 +87,7 @@ func newOtpAuth() (oa *otpauth.OtpAuth, err error) {
 		}
 	}
 
-	oa, err = otpauth.GenerateOtpAuthWithOption(o)
+	oa, err = otpauth.GenerateOtpAuthWithOption(*issuer, *accountName, otpauth.HostHOTP, o)
 	if err != nil {
 		return nil, err
 	}
