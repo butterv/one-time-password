@@ -29,6 +29,7 @@ func (opt *Option) Algorithm() otpauth.Algorithm {
 func DefaultOption() *Option {
 	return &Option{
 		period:    30,
+		skew:      1,
 		digits:    6,
 		algorithm: 0,
 	}

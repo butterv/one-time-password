@@ -22,10 +22,24 @@ func ValidateWithOption(passcode, secret string, t time.Time, opt *Option) (bool
 	_ = hotpOpt.SetAlgorithm(opt.algorithm)
 
 	c := uint64(math.Floor(float64(t.Unix()) / float64(opt.period)))
-	ok, err := hotp.ValidateWithOption(passcode, secret, c, hotpOpt)
-	if err != nil {
-		return false, err
+
+	var cs []uint64
+	cs = append(cs, c)
+
+	for i := uint64(1); i <= uint64(opt.skew); i++ {
+		cs = append(cs, c+i)
+		cs = append(cs, c-i)
 	}
 
-	return ok, nil
+	for _, c := range cs {
+		ok, err := hotp.ValidateWithOption(passcode, secret, c, hotpOpt)
+		if err != nil {
+			return false, err
+		}
+		if ok {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }

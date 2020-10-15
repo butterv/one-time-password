@@ -7,6 +7,10 @@ import (
 	"github.com/istsh/one-time-password/otpauth"
 )
 
+const (
+	defaultSkew = uint(1)
+)
+
 // ErrTOTPOptionIsNil is an error when the totp option is nil
 var ErrTOTPOptionIsNil = errors.New("totp option is nil")
 
@@ -15,6 +19,10 @@ type Option struct {
 	// period is the seconds that a Time-based One Time Password hash is valid
 	// The default value is 30 seconds
 	period uint
+	// skew verifies one time password by expanding the counter back and forth by this value only
+	// This considers any possible synchronization delay between the server and the client that generates the one time password
+	// The default value is 1
+	skew uint
 	// digits is the number of digits
 	// The default value is 6
 	digits otpauth.Digits
@@ -66,6 +74,7 @@ func (opt *Option) SetAlgorithm(a otpauth.Algorithm) error {
 func NewOption() *Option {
 	return &Option{
 		period:    otpauth.DefaultPeriod,
+		skew:      defaultSkew,
 		digits:    otpauth.DigitsSix,
 		algorithm: otpauth.AlgorithmSHA1,
 	}
