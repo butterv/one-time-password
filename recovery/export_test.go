@@ -41,5 +41,6 @@ func DefaultOption() *Option {
 		letters: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
 		length:  8,
 		count:   8,
+		format:  0,
 	}
 }

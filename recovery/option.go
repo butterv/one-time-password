@@ -128,5 +128,6 @@ func NewOption() *Option {
 		letters: defaultLetters,
 		length:  defaultLength,
 		count:   defaultCount,
+		format:  FormatNormal,
 	}
 }
