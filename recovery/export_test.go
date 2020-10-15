@@ -1,5 +1,9 @@
 package recovery
 
+var ExportFormatEnable = Format.enabled
+
+var ExportFormatApply = Format.apply
+
 func (opt *Option) Letters() string {
 	if opt == nil {
 		return ""
@@ -22,6 +26,14 @@ func (opt *Option) Count() uint {
 	}
 
 	return opt.count
+}
+
+func (opt *Option) Format() Format {
+	if opt == nil {
+		return 0
+	}
+
+	return opt.format
 }
 
 func DefaultOption() *Option {

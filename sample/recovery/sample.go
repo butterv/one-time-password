@@ -12,6 +12,7 @@ var (
 	letters = flag.String("letters", "", "")
 	length  = flag.Uint("length", 8, "")
 	count   = flag.Uint("count", 10, "")
+	format  = flag.Int("format", 0, "")
 )
 
 func main() {
@@ -33,6 +34,12 @@ func main() {
 		}
 		if *count != 0 {
 			err := o.SetCount(*count)
+			if err != nil {
+				panic(err)
+			}
+		}
+		if *format != 0 {
+			err := o.SetFormat(recovery.Format(*format))
 			if err != nil {
 				panic(err)
 			}

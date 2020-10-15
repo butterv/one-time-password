@@ -134,6 +134,87 @@ func TestOption_SetCount_InvalidCount(t *testing.T) {
 	}
 }
 
+func TestOption_SetFormat(t *testing.T) {
+	want := recovery.FormatSplitByHyphen
+
+	format := recovery.FormatSplitByHyphen
+	o := &recovery.Option{}
+	err := o.SetFormat(format)
+	if err != nil {
+		t.Fatalf("SetFormat(%d)=%#v; want nil, receiver %#v", format, err, o)
+	}
+	if got := o.Format(); got != want {
+		t.Errorf("format: got %d, want %d, receiver %#v", got, want, o)
+	}
+}
+
+func TestOption_SetFormat_ErrOptionIsNil(t *testing.T) {
+	wantErr := recovery.ErrRecoveryCodeOptionIsNil
+
+	format := recovery.FormatSplitByHyphen
+	var o *recovery.Option
+	err := o.SetFormat(format)
+	if err == nil {
+		t.Fatalf("SetFormat(%d)=nil; want %v, receiver nil", format, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("SetFormat(%d)=%#v; want %v, receiver nil", format, err, wantErr)
+	}
+}
+
+func TestOption_SetFormat_InvalidFormat(t *testing.T) {
+	wantErr := errors.New("invalid format. please pass any of 0 to 2")
+
+	format := recovery.Format(3)
+	o := &recovery.Option{}
+	err := o.SetFormat(format)
+	if err == nil {
+		t.Fatalf("SetFormat(%d)=nil; want %v, receiver nil", format, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("SetFormat(%d)=%#v; want %v, receiver nil", format, err, wantErr)
+	}
+}
+
+func TestFormat_Enabled(t *testing.T) {
+	tests := []struct {
+		in   recovery.Format
+		want bool
+	}{
+		{in: 0, want: true},
+		{in: 1, want: true},
+		{in: 2, want: true},
+		{in: 3, want: false},
+		{in: -1, want: false},
+	}
+
+	for _, tt := range tests {
+		got := recovery.ExportFormatEnable(tt.in)
+		if got != tt.want {
+			t.Errorf("ExportFormatEnable(%d)=%v; want %v", tt.in, got, tt.want)
+		}
+	}
+}
+
+func TestFormat_Apply(t *testing.T) {
+	tests := []struct {
+		in   recovery.Format
+		want string
+	}{
+		{in: 0, want: "12345678"},
+		{in: 1, want: "1234-5678"},
+		{in: 2, want: "1234 5678"},
+	}
+
+	code := "12345678"
+	for _, tt := range tests {
+		got := recovery.ExportFormatApply(tt.in, code)
+		if got != tt.want {
+			t.Errorf("ExportFormatApply(%d, %s)=%v; want %v", tt.in, code, got, tt.want)
+		}
+	}
+}
+
 func TestNewOption(t *testing.T) {
 	want := recovery.DefaultOption()
 

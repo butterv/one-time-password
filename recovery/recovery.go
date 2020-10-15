@@ -23,7 +23,7 @@ func GenerateRecoveryCodesWithOption(opt *Option) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
-		codes = append(codes, code)
+		codes = append(codes, opt.format.apply(code))
 	}
 
 	return codes, nil
