@@ -13,7 +13,7 @@ const (
 )
 
 func TestValidate_True(t *testing.T) {
-	passcode := "662024"qg
+	passcode := "662024"
 	ti := time.Date(2020, 10, 1, 0, 0, 0, 0, time.UTC)
 	got, err := totp.Validate(passcode, secret, ti)
 	if err != nil {
