@@ -2,26 +2,24 @@ package recovery
 
 import (
 	crand "crypto/rand"
-	"errors"
 	"math/big"
 )
 
-const (
-	letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-)
+// GenerateRecoveryCodes generates recovery codes
+func GenerateRecoveryCodes() ([]string, error) {
+	opt := NewOption()
+	return GenerateRecoveryCodesWithOption(opt)
+}
 
-// GenerateRecoveryCodes generates recovery codes.
-func GenerateRecoveryCodes(length, count uint) ([]string, error) {
-	if length == 0 {
-		return nil, errors.New("invalid length. please pass greater than 0")
-	}
-	if count == 0 {
-		return nil, errors.New("invalid count. please pass greater than 0")
+// GenerateRecoveryCodesWithOption generates recovery codes by passing option.
+func GenerateRecoveryCodesWithOption(opt *Option) ([]string, error) {
+	if opt == nil {
+		return nil, ErrRecoveryCodeOptionIsNil
 	}
 
 	var codes []string
-	for i := uint(0); i < count; i++ {
-		code, err := cryptoRandString(length)
+	for i := uint(0); i < opt.count; i++ {
+		code, err := cryptoRandString(opt.letters, opt.length)
 		if err != nil {
 			return nil, err
 		}
@@ -31,7 +29,7 @@ func GenerateRecoveryCodes(length, count uint) ([]string, error) {
 	return codes, nil
 }
 
-func cryptoRandString(length uint) (string, error) {
+func cryptoRandString(letters string, length uint) (string, error) {
 	b := make([]byte, length)
 	n := big.NewInt(int64(len(letters)))
 	for i := range b {
