@@ -64,8 +64,8 @@ func main() {
 }
 
 func newOtpAuth() (oa *otpauth.OtpAuth, err error) {
+	o, err := otpauth.NewOption(*issuer, *accountName, otpauth.HostHOTP)
 	if *option {
-		o, err := otpauth.NewOption(*issuer, *accountName, otpauth.HostHOTP)
 		if err != nil {
 			return nil, err
 		}
@@ -85,16 +85,11 @@ func newOtpAuth() (oa *otpauth.OtpAuth, err error) {
 		if *algorithm != 0 {
 			_ = o.SetAlgorithm(otpauth.Algorithm(*algorithm))
 		}
+	}
 
-		oa, err = otpauth.GenerateOtpAuthWithOption(o)
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		oa, err = otpauth.GenerateOtpAuth(*issuer, *accountName, otpauth.HostHOTP)
-		if err != nil {
-			return nil, err
-		}
+	oa, err = otpauth.GenerateOtpAuthWithOption(o)
+	if err != nil {
+		return nil, err
 	}
 
 	return oa, nil
