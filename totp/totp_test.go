@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/istsh/one-time-password/otpauth"
-
 	"github.com/istsh/one-time-password/totp"
 )
 
@@ -14,7 +13,7 @@ const (
 )
 
 func TestValidate_True(t *testing.T) {
-	passcode := "662024"
+	passcode := "662024"qg
 	ti := time.Date(2020, 10, 1, 0, 0, 0, 0, time.UTC)
 	got, err := totp.Validate(passcode, secret, ti)
 	if err != nil {
