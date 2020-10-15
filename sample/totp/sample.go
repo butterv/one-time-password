@@ -18,6 +18,7 @@ var (
 	accountName = flag.String("accountName", "istsh@example.com", "")
 	option      = flag.Bool("option", false, "")
 	period      = flag.Uint("period", 0, "")
+	skew        = flag.Uint("skew", 0, "")
 	secretSize  = flag.Uint("secretSize", 0, "")
 	secret      = flag.String("secret", "", "")
 	digits      = flag.Int("digits", 0, "")
@@ -35,6 +36,18 @@ func main() {
 
 	o := totp.NewOption()
 	if *option {
+		if *period > 0 {
+			err = o.SetPeriod(*period)
+			if err != nil {
+				panic(err)
+			}
+		}
+		if *skew > 0 {
+			err = o.SetSkew(*skew)
+			if err != nil {
+				panic(err)
+			}
+		}
 		if *digits != 0 {
 			err = o.SetDigits(otpauth.Digits(*digits))
 			if err != nil {

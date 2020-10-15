@@ -44,6 +44,19 @@ func (opt *Option) SetPeriod(period uint) error {
 	return nil
 }
 
+// SetSkew sets a skew
+func (opt *Option) SetSkew(skew uint) error {
+	if opt == nil {
+		return ErrTOTPOptionIsNil
+	}
+	if skew == 0 {
+		return errors.New("invalid skew. please pass greater than 0")
+	}
+
+	opt.skew = skew
+	return nil
+}
+
 // SetDigits sets the number of digits
 func (opt *Option) SetDigits(d otpauth.Digits) error {
 	if opt == nil {

@@ -51,6 +51,48 @@ func TestOption_SetPeriod_InvalidPeriod(t *testing.T) {
 	}
 }
 
+func TestOption_SetSkew(t *testing.T) {
+	want := uint(1)
+
+	skew := uint(1)
+	o := &totp.Option{}
+	err := o.SetSkew(skew)
+	if err != nil {
+		t.Fatalf("SetSkew(%d)=%#v; want nil, receiver %#v", skew, err, o)
+	}
+	if got := o.Skew(); got != want {
+		t.Errorf("skew: got %d, want %d, receiver %#v", got, want, o)
+	}
+}
+
+func TestOption_SetSkew_ErrOptionIsNil(t *testing.T) {
+	wantErr := totp.ErrTOTPOptionIsNil
+
+	skew := uint(1)
+	var o *totp.Option
+	err := o.SetSkew(skew)
+	if err == nil {
+		t.Fatalf("SetSkew(%d)=nil; want %v, receiver nil", skew, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("SetSkew(%d)=%#v; want %v, receiver nil", skew, err, wantErr)
+	}
+}
+
+func TestOption_SetSkew_InvalidPeriod(t *testing.T) {
+	wantErr := errors.New("invalid skew. please pass greater than 0")
+
+	skew := uint(0)
+	o := &totp.Option{}
+	err := o.SetSkew(skew)
+	if err == nil {
+		t.Fatalf("SetSkew(%d)=nil; want %v, receiver nil", skew, wantErr)
+	}
+	if err.Error() != wantErr.Error() {
+		t.Errorf("SetSkew(%d)=%#v; want %v, receiver nil", skew, err, wantErr)
+	}
+}
+
 func TestOption_SetDigits(t *testing.T) {
 	want := otpauth.DigitsSix
 

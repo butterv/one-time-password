@@ -10,6 +10,14 @@ func (opt *Option) Period() uint {
 	return opt.period
 }
 
+func (opt *Option) Skew() uint {
+	if opt == nil {
+		return 0
+	}
+
+	return opt.skew
+}
+
 func (opt *Option) Digits() otpauth.Digits {
 	if opt == nil {
 		return 0
