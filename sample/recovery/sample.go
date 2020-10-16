@@ -8,11 +8,11 @@ import (
 )
 
 var (
-	option  = flag.Bool("option", false, "")
-	letters = flag.String("letters", "", "")
-	length  = flag.Uint("length", 8, "")
-	count   = flag.Uint("count", 10, "")
-	format  = flag.Int("format", 0, "")
+	option  = flag.Bool("option", false, "the flag of using custom option")
+	letters = flag.String("letters", "", "the candidate characters used to generate random string")
+	length  = flag.Uint("length", 8, "the length of generated random string")
+	count   = flag.Uint("count", 10, "the count of random string")
+	format  = flag.Int("format", 0, "the format of recovery code")
 )
 
 func main() {

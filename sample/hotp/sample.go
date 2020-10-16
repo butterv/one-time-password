@@ -9,15 +9,14 @@ import (
 )
 
 var (
-	issuer      = flag.String("issuer", "example.com", "")
-	accountName = flag.String("accountName", "istsh@example.com", "")
-	option      = flag.Bool("option", false, "")
-	period      = flag.Uint("period", 0, "")
-	secretSize  = flag.Uint("secretSize", 0, "")
-	secret      = flag.String("secret", "", "")
-	digits      = flag.Int("digits", 0, "")
-	algorithm   = flag.Int("algorithm", 0, "")
-	counter     = flag.Uint64("counter", 1, "")
+	issuer      = flag.String("issuer", "example.com", "the issuing organization or company")
+	accountName = flag.String("accountName", "istsh@example.com", "the user's account name or email address")
+	option      = flag.Bool("option", false, "the flag of using custom option")
+	secretSize  = flag.Uint("secretSize", 0, "the size of the secret")
+	secret      = flag.String("secret", "", "sets the generated secret")
+	digits      = flag.Int("digits", 0, "the number of digits")
+	algorithm   = flag.Int("algorithm", 0, "the hash function to use in the HMAC operation")
+	counter     = flag.Uint64("counter", 1, "verify the password for this counter")
 )
 
 func main() {
@@ -70,9 +69,6 @@ func newOtpAuth() (oa *otpauth.OtpAuth, err error) {
 	}
 
 	if *option {
-		if *period > 0 {
-			_ = o.SetPeriod(*period)
-		}
 		if *secretSize > 0 {
 			_ = o.SetSecretSize(*secretSize)
 		}

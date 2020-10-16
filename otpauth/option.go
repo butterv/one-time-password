@@ -135,15 +135,10 @@ func (a Algorithm) Hash() hash.Hash {
 
 // Option is used when generates otpauth
 type Option struct {
-	//// issuer is the issuing organization or company
-	//issuer string
-	//// accountName is the user's account name
-	//// e.g. email address
-	//accountName string
 	// period is the seconds that a Time-based One Time Password hash is valid
 	// The default value is 30 seconds
 	period uint
-	// secretSize is a size of the generated Secret
+	// secretSize is a size of the generated secret
 	// The default value is 20 bytes
 	secretSize uint
 	// secret is a secret that has already been generated
@@ -151,9 +146,6 @@ type Option struct {
 	// scheme is an url scheme
 	// The default value is `otpauth`
 	scheme string
-	//// host is a host of One Time Password
-	//// The default value is `totp`
-	//host Host
 	// digits is the number of digits
 	// The default value is 6
 	digits Digits

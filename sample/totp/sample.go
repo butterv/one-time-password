@@ -14,16 +14,15 @@ import (
 )
 
 var (
-	issuer      = flag.String("issuer", "example.com", "")
-	accountName = flag.String("accountName", "istsh@example.com", "")
-	option      = flag.Bool("option", false, "")
-	period      = flag.Uint("period", 0, "")
-	skew        = flag.Uint("skew", 0, "")
-	secretSize  = flag.Uint("secretSize", 0, "")
-	secret      = flag.String("secret", "", "")
-	digits      = flag.Int("digits", 0, "")
-	algorithm   = flag.Int("algorithm", 0, "")
-	counter     = flag.Uint64("counter", 1, "")
+	issuer      = flag.String("issuer", "example.com", "the issuing organization or company")
+	accountName = flag.String("accountName", "istsh@example.com", "the user's account name or email address")
+	option      = flag.Bool("option", false, "the flag of using custom option")
+	period      = flag.Uint("period", 0, "the seconds that a one time password is valid")
+	skew        = flag.Uint("skew", 0, "verifies one time password by expanding the counter back and forth by this value only")
+	secretSize  = flag.Uint("secretSize", 0, "the size of the secret")
+	secret      = flag.String("secret", "", "sets the generated secret")
+	digits      = flag.Int("digits", 0, "the number of digits")
+	algorithm   = flag.Int("algorithm", 0, "the hash function to use in the HMAC operation")
 )
 
 func main() {
@@ -66,7 +65,6 @@ func main() {
 	fmt.Printf("issuer:      %s\n", *issuer)
 	fmt.Printf("accountName: %s\n", *accountName)
 	fmt.Printf("secret:      %s\n", oa.Secret())
-	fmt.Printf("counter:     %d\n", *counter)
 	fmt.Println()
 
 	config := qrcode.Config{
