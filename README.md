@@ -84,4 +84,4 @@ func main() {
 ```
 
 ## License
-MIT
+[MIT](https://github.com/istsh/one-time-password/blob/main/LICENSE)
