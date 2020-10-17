@@ -7,11 +7,13 @@ import (
 	"os"
 	"time"
 
-	qrcode "github.com/mdp/qrterminal/v3"
+	"github.com/skip2/go-qrcode"
 
 	"github.com/istsh/one-time-password/otpauth"
 	"github.com/istsh/one-time-password/totp"
 )
+
+const qrCodeSize = 256
 
 var (
 	issuer      = flag.String("issuer", "example.com", "the issuing organization or company")
@@ -61,22 +63,18 @@ func main() {
 		}
 	}
 
+	qr, err := qrcode.New(oa.URL(), qrcode.Medium)
+	if err != nil {
+		panic(err)
+	}
+	_ = qr.WriteFile(qrCodeSize, "qrcode.png")
+
+	data, _ := oa.QRCode()
 	fmt.Printf("url:         %s\n", oa.URL())
+	fmt.Printf("data:        %s\n", data)
 	fmt.Printf("issuer:      %s\n", *issuer)
 	fmt.Printf("accountName: %s\n", *accountName)
 	fmt.Printf("secret:      %s\n", oa.Secret())
-	fmt.Println()
-
-	config := qrcode.Config{
-		Level:          qrcode.L,
-		Writer:         os.Stdout,
-		BlackChar:      qrcode.BLACK,
-		BlackWhiteChar: qrcode.BLACK,
-		WhiteChar:      qrcode.WHITE,
-		WhiteBlackChar: qrcode.WHITE,
-		QuietZone:      3,
-	}
-	qrcode.GenerateWithConfig(oa.URL(), config)
 	fmt.Println()
 
 	scanner := bufio.NewScanner(os.Stdin)

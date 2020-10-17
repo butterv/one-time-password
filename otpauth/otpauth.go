@@ -2,11 +2,16 @@ package otpauth
 
 import (
 	"encoding/base32"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"net/url"
 	"strconv"
+
+	"github.com/skip2/go-qrcode"
 )
+
+const qrCodeSize = 256
 
 var base32NoPadding = base32.StdEncoding.WithPadding(base32.NoPadding)
 
@@ -32,6 +37,21 @@ func (oa *OtpAuth) Secret() string {
 	}
 
 	return oa.secret
+}
+
+// QRCode returns value is the base64 encoded image data
+func (oa *OtpAuth) QRCode() (string, error) {
+	qr, err := qrcode.New(oa.URL(), qrcode.Medium)
+	if err != nil {
+		return "", err
+	}
+
+	bytes, err := qr.PNG(qrCodeSize)
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("%s%s", "data:image/png;base64,", base64.StdEncoding.EncodeToString(bytes)), nil
 }
 
 // GenerateOtpAuth generates an otpAuth by passing issuer, account name and host

@@ -53,7 +53,9 @@ func main() {
 		panic(err)
 	}
 
+	data, _ := oa.QRCode()
 	fmt.Printf("url:         %s\n", oa.URL())
+	fmt.Printf("data:        %s\n", data)
 	fmt.Printf("issuer:      %s\n", *issuer)
 	fmt.Printf("accountName: %s\n", *accountName)
 	fmt.Printf("secret:      %s\n", oa.Secret())

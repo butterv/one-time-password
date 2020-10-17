@@ -2,7 +2,4 @@ module github.com/istsh/one-time-password
 
 go 1.15
 
-require (
-	github.com/google/go-cmp v0.5.2
-	github.com/mdp/qrterminal/v3 v3.0.0
-)
+require github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e

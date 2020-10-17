@@ -48,6 +48,19 @@ func TestOtpAuth_Secret_Empty(t *testing.T) {
 	}
 }
 
+func TestOtpAuth_QRCode(t *testing.T) {
+	want := "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAABlBMVEX///8AAABVwtN+AAABFUlEQVR42uyYMW7GIAyFHWXImCNwFI7GfzSOkiMwMlR5lU3apG6JurUK7y0h6Jss3sNGKIqi/rtWNOW4rXiT6fitBDzQlilLKIsC192hgAWApBxRFuwTJAGFQB+QABD4HVBnAjfA4c246ffGvKMDlzC3St6l/cjAKUv7Oz0aWKttJ+SgYS6ClwTnTQJ2ouoM4CURRZ0HkWZCAg6oFkzaHqAakHLwYU6g3Xq7njPVvNvpc5UkcL31kHVpWf691AQuslFuMpvKWmQ04Lz9dULRNE+50yYNDnyZea2S8UfrEficULSSLcxRCPSBQ/1KEmivKNtHp+Cf3Qh4b1p7AKBr3icDZ5ijHrO/m1AIUBRF/Z3eAwAA//97vEDyAafUkQAAAABJRU5ErkJggg=="
+
+	oa := otpauth.DefaultOtpAuth()
+	got, err := oa.QRCode()
+	if err != nil {
+		t.Fatalf("QRCode()=_, %#v; want nil, receiver %v", err, oa)
+	}
+	if got != want {
+		t.Errorf("QRCode()=%s, _; want %s, receiver %v", got, want, oa)
+	}
+}
+
 func TestGenerateOtpAuth_IssuerIsEmpty(t *testing.T) {
 	wantErr := errors.New("issuer is empty")
 
