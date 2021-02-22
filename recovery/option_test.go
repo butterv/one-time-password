@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/istsh/one-time-password/recovery"
+	"github.com/butterv/one-time-password/recovery"
 )
 
 func TestOption_SetLetters(t *testing.T) {

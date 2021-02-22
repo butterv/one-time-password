@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/istsh/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/otpauth"
 )
 
 const (

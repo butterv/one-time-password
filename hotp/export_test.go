@@ -1,6 +1,6 @@
 package hotp
 
-import "github.com/istsh/one-time-password/otpauth"
+import "github.com/butterv/one-time-password/otpauth"
 
 func (opt *Option) Digits() otpauth.Digits {
 	if opt == nil {

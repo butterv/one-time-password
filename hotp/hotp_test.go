@@ -3,8 +3,8 @@ package hotp_test
 import (
 	"testing"
 
-	"github.com/istsh/one-time-password/hotp"
-	"github.com/istsh/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/hotp"
+	"github.com/butterv/one-time-password/otpauth"
 )
 
 const (

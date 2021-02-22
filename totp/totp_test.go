@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/istsh/one-time-password/otpauth"
-	"github.com/istsh/one-time-password/totp"
+	"github.com/butterv/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/totp"
 )
 
 const (

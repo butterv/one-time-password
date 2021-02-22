@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/istsh/one-time-password/recovery"
+	"github.com/butterv/one-time-password/recovery"
 )
 
 var (

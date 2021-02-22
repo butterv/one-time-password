@@ -1,6 +1,6 @@
 package totp
 
-import "github.com/istsh/one-time-password/otpauth"
+import "github.com/butterv/one-time-password/otpauth"
 
 func (opt *Option) Period() uint {
 	if opt == nil {

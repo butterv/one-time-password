@@ -9,15 +9,15 @@ import (
 
 	"github.com/skip2/go-qrcode"
 
-	"github.com/istsh/one-time-password/otpauth"
-	"github.com/istsh/one-time-password/totp"
+	"github.com/butterv/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/totp"
 )
 
 const qrCodeSize = 256
 
 var (
 	issuer      = flag.String("issuer", "example.com", "the issuing organization or company")
-	accountName = flag.String("accountName", "istsh@example.com", "the user's account name or email address")
+	accountName = flag.String("accountName", "butter@example.com", "the user's account name or email address")
 	option      = flag.Bool("option", false, "the flag of using custom option")
 	period      = flag.Uint("period", 0, "the seconds that a one time password is valid")
 	skew        = flag.Uint("skew", 0, "verifies one time password by expanding the counter back and forth by this value only")

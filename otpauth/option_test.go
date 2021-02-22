@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/istsh/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/otpauth"
 )
 
 func TestHost_Enabled(t *testing.T) {

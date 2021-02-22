@@ -4,13 +4,13 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/istsh/one-time-password/hotp"
-	"github.com/istsh/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/hotp"
+	"github.com/butterv/one-time-password/otpauth"
 )
 
 var (
 	issuer      = flag.String("issuer", "example.com", "the issuing organization or company")
-	accountName = flag.String("accountName", "istsh@example.com", "the user's account name or email address")
+	accountName = flag.String("accountName", "butter@example.com", "the user's account name or email address")
 	option      = flag.Bool("option", false, "the flag of using custom option")
 	secretSize  = flag.Uint("secretSize", 0, "the size of the secret")
 	secret      = flag.String("secret", "", "sets the generated secret")

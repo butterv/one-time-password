@@ -4,7 +4,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/istsh/one-time-password/hotp"
+	"github.com/butterv/one-time-password/hotp"
 )
 
 // Validate validates a Time-based One Time Password with using default value of option

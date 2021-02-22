@@ -7,7 +7,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/istsh/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/otpauth"
 )
 
 // GeneratePasscode generates a passcode with using default value of option

@@ -1,4 +1,4 @@
-module github.com/istsh/one-time-password
+module github.com/butterv/one-time-password
 
 go 1.15
 

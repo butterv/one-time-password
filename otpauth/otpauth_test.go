@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/istsh/one-time-password/otpauth"
+	"github.com/butterv/one-time-password/otpauth"
 )
 
 func TestOtpAuth_URL(t *testing.T) {
